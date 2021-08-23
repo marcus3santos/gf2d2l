@@ -1,0 +1,54 @@
+#+title: GF2D2L
+
+GF2D2L converts Google Form quiz scores to D2L-uploadable quiz grades.
+
+* Dependencies
+
+
+You need to install [[http://www.sbcl.org/][Steel Bank Common Lisp]]. For more info on how to install SBCL, [[http://www.sbcl.org/getting.html][http://www.sbcl.org/getting.html]].
+
+* Installation
+Type the following command on a shell
+#+begin_src shell
+$ git clone https://github.com/marcus3santos/gf2d2l.git
+#+end_src
+  
+* Usage
+** Prerequisites:
+To use this tool, the following folders/files should be located in the same directory as the *gf2d2l.lisp* file:
+  1. A D2l exported grades csv file. For the details on how to export grades on D2L, consult the [[https://www.ryerson.ca/courses/instructors/tutorials/grades/grades-export-import/#:~:text=Export%20grade%20items%20from%20Brightspace%20(backup),export%20grades%20for%20select%20students][Export and Import Grades webpage]]. We assume you have created a ~Quizzes~ grade as a D2L grade item (Maximum points: 100, Grade Scheme: percentage), and that grade represents the total score the student has achieved on all quizzes during the semester. When exporting the 'Quizzes' grade in D2L, select the following export options:
+     - Username
+     - Points grade
+     - Last name
+     - First name
+     - Email
+  2. A folder containing csv files downloaded from Google form's /Download responses (.csv)/. We assume you have created each quiz using a Google Form and with the following settings:
+     - General: collect emails; 'Restrict to users in Ryerson University and its trusted organizations'; Limit to 1 response
+     - Quizzes: turn on the ~Make a quiz~ switch
+
+Below is an example of the contents of a CSV file exported by D2L:
+#+begin_example
+Username,Last Name,First Name,Email,Quizzes Points Grade <Numeric MaxPoints:100 Weight:10>,End-of-Line Indicator
+#ds_m3santos,Santos,Marcus,ds_m3santos@ryerson.ca,,#
+#ttiger,Tigertongue,Tim,ttiger@ryerson.ca,,#
+#patrick97,Pearson,Patrick,patrick97@ryerson.ca,,#
+#zain1997,Zodson,Zain,zain1997@ryerson.ca,,#
+#+end_example
+
+** Converting responses of Google form quizzes:
+
+Type the following command on a shell:
+#+begin_src shell
+$ sbcl --noinform --load gf2d2l.lisp --eval '(gf2d2l d2lFile quizzesFolder)' --quit
+#+end_src
+where 
+1. ~d2lFile~ is a string representing a D2L grades exported file.
+2. ~quizzesFolder~ is a string representing a folder containing csv files downloaded from Google form's ~Download responses (.csv)~
+
+Below is an example of a shell command for converting responses of Google form quizzes stored in csv files in the folder */Users/m3santos/Google-Drive/Teaching/Resources/gf2d2l/example/quizzes-responses-folder/* for the students listed in the D2L exported quizzes grades csv file *"/Users/m3santos/Google-Drive/Teaching/Resources/gf2d2l/example/d2l-quizzes-marks-empty.csv"*:
+#+begin_src shell
+$ sbcl --noinform --load gf2d2l.lisp --eval '(gf2d2l "/Users/m3santos/Google-Drive/Teaching/Resources/gf2d2l/example/quizzes-responses-folder/" "/Users/m3santos/Google-Drive/Teaching/Resources/gf2d2l/example/d2l-quizzes-marks-empty.csv")' --quit
+#+end_src
+
+** Output
+The execution of the above shell command will create a D2L-upoloadable grades csv file called *d2l-quizzes-marks.csv*. in the same directory as *gf2d2l.lisp*.
