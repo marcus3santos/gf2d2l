@@ -54,7 +54,7 @@ $ sbcl --noinform --load gf2d2l.lisp --eval '(gf2d2l "/Users/m3santos/Google-Dri
 ** Output
 The execution of the above shell command will create a D2L-upoloadable grades csv file called *d2l-quizzes-marks.csv*. in the same directory as *gf2d2l.lisp*.
 
-For example: if the quiz grades for the students mentioned in the example above of CSV file example exported by D2L were 70, 100, 65, 0, respectively, then the gf2d2l generated *d2l-quizzes-marks.csv* would contain the following data:following
+For example: if the quiz grades for the students mentioned in the example above of CSV file example exported by D2L were 70, 100, 65, 0, respectively, then the gf2d2l generated file *d2l-quizzes-marks.csv* would contain the following data:
 
   #+begin_example 
   Username,Last Name,First Name,Email,Quizzes Points Grade <Numeric MaxPoints:100 Weight:10>,End-of-Line Indicator
